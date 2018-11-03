@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<script src="js/mui.min.js"></script>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="css/font-awesome.min.css" />
+		<link rel="stylesheet" type="text/css" href="css/app.css" />
+		<script src="js/jquery-2.1.0.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/layer_mobile/layer.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/swiper/js/swiper.min.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="js/swiper/css/swiper.css" />
+		<script type="text/javascript" charset="utf-8">
+			mui.init();
+		</script>
+	</head>
+
+	<body>
+
+		<!--to 程序员-->
+		<!--a 标签如果需要加 链接跳转，加data-href属性。后面接链接。-->
+		<!--<a href="" data-href="#如果a链接跳转就把链接写到这里"></a>-->
+		<!--<div data-href="如果a链接跳转就把链接写到这里"></div>-->
+		<style type="text/css">
+			body,
+			.user-content {
+				background: #EFEFEF;
+			}
+		</style>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">转账</h1>
+
+		</header>
+
+		<div class="mui-content user-content">
+
+			<div class="transfer-form">
+				<form class="mui-input-group">
+					<div class="mui-input-row">
+						<label>转账给</label>
+						<div class="mui-pull-right txtinfo">
+							<div class="avator-user" style="background-image: url(img/avator/female_04.png);"></div>
+							<span>
+				        		李四
+				        	</span>
+						</div>
+					</div>
+					<div class="mui-input-row">
+						<label>转账金额</label>
+						<input type="text" id="amount" class="mui-text-right" placeholder="请输入转账金额">
+					</div>
+					<div class="mui-input-row">
+						<label>转账说明</label>
+						<input type="text" id="remarks" class="mui-text-right" placeholder="请输入转账说明">
+					</div>
+				</form>
+				<br /><br />
+				<div class="mui-content-padded">
+					<button type="button" id="activeTransfer" class="mui-btn mui-btn-red mui-btn-block">转账</button>
+				</div>
+			</div>
+
+		</div>
+
+		<script src="js/config.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			function activeTransfer() {
+				//console.log(mui("#amount").value);
+			}
+			mui(".mui-content-padded").on('tap', '#activeTransfer', function() {
+				//获取id
+				var amount = mui("#amount")[0].value;
+				var remarks = mui("#remarks")[0].value;
+				plus.nativeUI.showWaiting( "等待中..." );
+				mui.ajax('http://192.168.199.215:8080/api', {
+					data: {
+						serviceName: 'transfer_req',
+						amount: amount,
+						remarks: remarks
+					},
+					dataType: 'json', //服务器返回json格式数据
+					type: 'post', //HTTP请求类型
+					timeout: 10000, //超时时间设置为10秒；
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					success: function(data) {
+						plus.nativeUI.closeWaiting();
+						console.log(JSON.stringify(data)) ;
+					},
+					error: function(xhr, type, errorThrown) {
+						plus.nativeUI.closeWaiting();
+						//异常处理；
+						console.log("error >>> " + JSON.stringify(xhr));
+					}
+				});
+			})
+		</script>
+	</body>
+
+</html>
