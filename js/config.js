@@ -46,4 +46,22 @@ function future (txt) {
 
 mui(document).on('tap','[close]',function(){
   mui(".mui-popover").popover('hide')
-})
+});
+
+// 后端请求地址
+var neighborURL = 'http://192.168.0.171:8090';
+var muiAjax = function(rul,datas,successFun,errFun){
+	mui.ajax(neighborURL+rul,{
+		data:datas,
+		dataType:'json',//服务器返回json格式数据
+		type:'post',//HTTP请求类型
+		timeout:10000,//超时时间设置为10秒；               
+		success:successFun,
+		error:function(xhr,type,errorThrown){
+			//异常处理；
+			console.log(type);
+			errFun(xhr,type,errorThrown);
+		}
+	});
+}
+
