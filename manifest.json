@@ -259,7 +259,9 @@
 					"img/head-user2.png"
 				],
 				"refer": [
-					"index.html"
+					"index.html",
+					"modify_sex.html",
+					"login.html"
 				],
 				"priority": 9
 			},
@@ -1085,7 +1087,8 @@
 				],
 				"refer": [
 					"safe.html",
-					"message.html"
+					"message.html",
+					"login.html"
 				],
 				"priority": 19
 			},
@@ -1158,7 +1161,8 @@
 					"setting.html",
 					"transfer.html",
 					"withdraw.html",
-					"recharge.html"
+					"recharge.html",
+					"login.html"
 				],
 				"priority": 9
 			},
@@ -2363,7 +2367,15 @@
 					"index.html",
 					"store.html",
 					"user_center.html",
-					"minesweeping.html"
+					"minesweeping.html",
+					"login.html"
+				],
+				"priority": 0
+			},
+			"login.html": {
+				"resources": [],
+				"refer": [
+					"index.html"
 				],
 				"priority": 0
 			}
@@ -2475,7 +2487,6 @@
 				"chat/img/emotion/face/47.gif",
 				"chat/img/emotion/face/35.gif",
 				"chat/img/emotion/face/87.gif",
-				"login.html",
 				"chat/img/emotion/face/3.gif",
 				"chat/img/bank/bank_icbc.png",
 				"chat/img/icon__addrFriend-way01.png",
@@ -2548,7 +2559,6 @@
 				"chat_sent_pack.html",
 				"chat/img/uimg/u__chat-img12.jpg",
 				"chat/img/emotion/face/11.gif",
-				"modify_sex.html",
 				"chat_group_set_desc.html",
 				"chat/img/emotion/face/98.gif",
 				"chat/img/emotion/face/81.gif",

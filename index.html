@@ -18,13 +18,15 @@
 			// 扩展API是否准备好，如果没有则监听“plusready"事件
 			mui.plusReady(function() {
 				console.log("当前页面URL：" + plus.webview.currentWebview().getURL());
+				tokenCheck();
+				 
 			});
 		</script>
 	</head>
 
 	<body>
 
-		<!--to 程序员-->
+		<!--to 程序员 test-->
 		<!--a 标签如果需要加 链接跳转，加data-href属性。后面接链接。-->
 		<!--<a href="" data-href="#如果a链接跳转就把链接写到这里"></a>-->
 		<!--<div data-href="如果a链接跳转就把链接写到这里"></div>-->

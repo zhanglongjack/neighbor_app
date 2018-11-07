@@ -10,32 +10,37 @@
 		<link rel="stylesheet" type="text/css" href="css/font-awesome.min.css" />
 		<link rel="stylesheet" type="text/css" href="css/app.css" />
 		<script src="js/jquery-2.1.0.js" type="text/javascript" charset="utf-8"></script>
-<script src="js/layer_mobile/layer.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/layer_mobile/layer.js" type="text/javascript" charset="utf-8"></script>
 		<script src="js/swiper/js/swiper.min.js" type="text/javascript" charset="utf-8"></script>
 		<link rel="stylesheet" type="text/css" href="js/swiper/css/swiper.css" />
+		<script src="js/config.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript" charset="utf-8">
-			mui.init();
+			mui.init({
+				swipeBack: true
+			});
+			mui.plusReady(function() {
+				plus.key.addEventListener("backbutton", onKeyBack, false);
+			});
+
+			function onKeyBack() {
+				plus.runtime.quit();
+			}
 		</script>
 	</head>
 
 	<body>
-	
+
 		<!--to 程序员-->
 		<!--a 标签如果需要加 链接跳转，加data-href属性。后面接链接。-->
 		<!--<a href="" data-href="如果a链接跳转就把链接写到这里"></a>-->
 		<!--<div data-href="如果a链接跳转就把链接写到这里"></div>-->
-		
-		
-		
-		
+
 		<style type="text/css">
-			body{
+			body {
 				background: #F1F1F1;
 			}
 		</style>
-		
-		
-		
+
 		<header class="mui-bar mui-bar-nav">
 			<h1 class="mui-title">欢迎登陆</h1>
 		</header>
@@ -61,33 +66,33 @@
 					<div class="mui-slider-group">
 						<div id="item1mobile" class="mui-slider-item mui-control-content mui-active">
 							<form class="mui-input-group">
-							    <div class="mui-input-row mui-input-row-icons">
-							        <label class="ico-user"></label>
-							        <input type="text" class="mui-input-clear" placeholder="请输入您的账号">
-							    </div>
-							    <div class="mui-input-row mui-password mui-input-row-icons">
-							    	<label class="ico-password"></label>
-									<input type="password" class="mui-input-password" placeholder="请输入您的密码">
+								<div class="mui-input-row mui-input-row-icons">
+									<label class="ico-user"></label>
+									<input id="phone" name="phone" type="text" class="mui-input-clear" placeholder="请输入您的账号">
+								</div>
+								<div class="mui-input-row mui-password mui-input-row-icons">
+									<label class="ico-password"></label>
+									<input id="password" type="password" class="mui-input-password" placeholder="请输入您的密码">
 								</div>
 							</form>
-							<button type="button" class="mui-btn mui-btn-red mui-btn-block border-raduis">点击登录</button>
+							<button id="acctLoginBtn" type="button" class="mui-btn mui-btn-red mui-btn-block border-raduis">点击登录</button>
 						</div>
 						<div id="item2mobile" class="mui-slider-item mui-control-content">
 							<form class="mui-input-group">
-							    <div class="mui-input-row mui-input-row-icons">
-							        <label class="ico-tel"></label>
-							        <input type="tel" class="mui-input-clear" placeholder="请输入您的手机号">
-							    </div>
-							   <div class="mui-input-row mui-input-row-icons">
-							   		<button type="button" class="mui-btn mui-btn-red">点击发送验证码</button>
-							        <label class="ico-yzm"></label>
-							        <input type="number" class="mui-input-clear" placeholder="请输入短信验证码" maxlength="6">
-							    </div>
-							   
+								<div class="mui-input-row mui-input-row-icons">
+									<label class="ico-tel"></label>
+									<input type="tel" class="mui-input-clear" placeholder="请输入您的手机号">
+								</div>
+								<div class="mui-input-row mui-input-row-icons">
+									<button type="button" class="mui-btn mui-btn-red">点击发送验证码</button>
+									<label class="ico-yzm"></label>
+									<input type="number" class="mui-input-clear" placeholder="请输入短信验证码" maxlength="6">
+								</div>
+
 							</form>
-							<button type="button" class="mui-btn mui-btn-red mui-btn-block border-raduis">点击登录</button>
+							<button id="verifyCodeBtn" type="button" class="mui-btn mui-btn-red mui-btn-block border-raduis">点击登录</button>
 						</div>
-						
+
 					</div>
 				</div>
 				<p class="mui-text-center" style="margin-top: 10px;">
@@ -97,15 +102,58 @@
 					<a href="#" data-href="#跳转链接写到这里才会生效" class="login-weixin"></a>
 					<a href="#" data-href="#跳转链接写到这里才会生效" class="login-qq"></a>
 				</div>
-				
+
 				<p class="agree-tips">
-					登陆代表您同意 <a href="#" data-href="#跳转链接写到这里才会生效">《好邻居服务协议》</a>
+					登陆代表您同意
+					<a href="#" data-href="#跳转链接写到这里才会生效">《好邻居服务协议》</a>
 				</p>
 			</div>
 
 		</div>
 
 		<script src="js/config.js" type="text/javascript" charset="utf-8"></script>
+
+		<script type="text/javascript" charset="utf-8">
+			//mui("#password")[0].val('');
+			mui("#item2mobile").on('tap', '.mui-btn', function() {
+				login();
+			});
+
+			mui("#item1mobile").on('tap', '#acctLoginBtn', function() {
+				login('/accountLogin.req', {
+					phone: $("#phone").val(),
+					password: $("#password").val()
+				});
+			});
+			var login = function(url, datas) {
+				console.log("登录");
+
+				mui.ajax(neighborURL + url, {
+					data: datas,
+					dataType: 'json', //服务器返回json格式数据
+					type: 'post', //HTTP请求类型
+					timeout: 10000, //超时时间设置为10秒；               
+					success: function(data) {
+						console.log("token ====" + data.token);
+						if(data.errorCode == 1) {
+							mui.toast("用户名或密码错误!");
+							return;
+						}
+						console.log("token ===" + data.token);
+						console.log("token user===" + data.user.realName);
+						plus.storage.setItem("token", data.token);
+	
+						console.log("user ====" + plus.storage.getItem("user"));
+						gotoUrl("index.html");
+					},
+					error: function(xhr, type, errorThrown) {
+						//异常处理；
+						console.log(type);
+					}
+				});
+				
+			}
+		</script>
 	</body>
 
 </html>

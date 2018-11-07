@@ -6,186 +6,224 @@
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 		<title></title>
 		<script src="js/mui.min.js"></script>
-		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/mui.css" rel="stylesheet" />
 		<link rel="stylesheet" type="text/css" href="css/font-awesome.min.css" />
 		<link rel="stylesheet" type="text/css" href="css/app.css" />
 		<script src="js/jquery-2.1.0.js" type="text/javascript" charset="utf-8"></script>
-<script src="js/layer_mobile/layer.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/layer_mobile/layer.js" type="text/javascript" charset="utf-8"></script>
 		<script src="js/swiper/js/swiper.min.js" type="text/javascript" charset="utf-8"></script>
 		<link rel="stylesheet" type="text/css" href="js/swiper/css/swiper.css" />
+		<script src="js/config.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript" charset="utf-8">
 			mui.init();
+			mui.plusReady(function() {
+				console.log("当前页面URL：" + plus.webview.currentWebview().getURL());
+				var token = plus.storage.getItem("token");
+				if(!token){
+					gotoUrl("login.html");
+					return;
+				}
+				
+				
+				muiAjax('/user/userInfoShow.req', { }, function(data) {
+					//服务器返回响应，根据响应结果，分析是否登录成功；
+					if(data.errorCode==0){
+						var user = data.body.user;
+						console.log("name ===" + user.nickName); 
+						
+						setValue("#nickName",user.nickName);
+						setValue("#userAccount",user.userAccount);
+						setValue("#sex",user.sex);
+						setValue("#realName",user.realName);
+						setValue("#mobilePhone",user.mobilePhone);
+						setValue("#wechat",user.wechat);
+						setValue("#qq",user.qq);
+						
+					}else{
+						mui.toast(data.errorMessage);
+					}
+				}, function(xhr, type, errorThrown) {
+					//异常处理；
+					console.log(type);
+				});
+
+				var test = plus.storage.getItem("test");
+				
+				console.log("测试缓存是否拿到:"+test);
+			});
+			
+			function setValue(id,val){
+				if(val){
+					$(id).text(val);
+				}
+			}
+			
 		</script>
 	</head>
 
 	<body>
-		
+
 		<!--to 程序员-->
 		<!--a 标签如果需要加 链接跳转，加data-href属性。后面接链接。-->
 		<!--<a href="" data-href="#如果a链接跳转就把链接写到这里"></a>-->
 		<!--<div data-href="如果a链接跳转就把链接写到这里"></div>-->
-		
+
 		<style type="text/css">
 			body,
-			.user-content{
-				background: #EFEFEF;	
+			.user-content {
+				background: #EFEFEF;
 			}
 		</style>
 		<header class="mui-bar mui-bar-nav">
-		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
-		    <h1 class="mui-title">个人资料</h1>
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">个人资料</h1>
 		</header>
-		
 
 		<nav class="mui-bar mui-bar-tab">
-		    <a class="mui-tab-item" data-href="#如果a链接跳转就把链接写到这里">
-		        <span class="mui-icon icon-nav1"></span><span class="mui-icon icon-nav1-active"></span>
-		        <span class="mui-tab-label">聊天</span>
-		    </a>
-		    <a class="mui-tab-item" data-href="#如果a链接跳转就把链接写到这里">
-		        <span class="mui-icon icon-nav2"></span><span class="mui-icon icon-nav2-active"></span>
-		        <span class="mui-tab-label">通讯录</span>
-		    </a>
-		    <a class="mui-tab-item " data-href="index.html">
-		        <span class="mui-icon icon-nav3"></span><span class="mui-icon icon-nav3-active"></span>
-		        <span class="mui-tab-label">游戏</span>
-		    </a>
-		    <a class="mui-tab-item" data-href="商城.html">
-		        <span class="mui-icon icon-nav4"></span><span class="mui-icon icon-nav4-active"></span>
-		        <span class="mui-tab-label">商城</span>
-		    </a>
-		    <a class="mui-tab-item mui-active" data-href="个人中心.html">
-		        <span class="mui-icon icon-nav5"></span><span class="mui-icon icon-nav5-active"></span>
-		        <span class="mui-tab-label">个人中心</span>
-		    </a>
+			<a class="mui-tab-item" data-href="#如果a链接跳转就把链接写到这里">
+				<span class="mui-icon icon-nav1"></span><span class="mui-icon icon-nav1-active"></span>
+				<span class="mui-tab-label">聊天</span>
+			</a>
+			<a class="mui-tab-item" data-href="#如果a链接跳转就把链接写到这里">
+				<span class="mui-icon icon-nav2"></span><span class="mui-icon icon-nav2-active"></span>
+				<span class="mui-tab-label">通讯录</span>
+			</a>
+			<a class="mui-tab-item " data-href="index.html">
+				<span class="mui-icon icon-nav3"></span><span class="mui-icon icon-nav3-active"></span>
+				<span class="mui-tab-label">游戏</span>
+			</a>
+			<a class="mui-tab-item" data-href="商城.html">
+				<span class="mui-icon icon-nav4"></span><span class="mui-icon icon-nav4-active"></span>
+				<span class="mui-tab-label">商城</span>
+			</a>
+			<a class="mui-tab-item mui-active" data-href="个人中心.html">
+				<span class="mui-icon icon-nav5"></span><span class="mui-icon icon-nav5-active"></span>
+				<span class="mui-tab-label">个人中心</span>
+			</a>
 		</nav>
 		<div class="mui-content user-content">
-				
+
 			<ul class="mui-table-view">
-			            <li class="mui-table-view-cell">
-			                <a  data-href="选择头像.html">
-			                	<div class="avator-user" style="background-image: url(img/head-user2.png);"></div>
-			                    <span>头像</span>
-			                </a>
-			            </li>
-			            <li class="mui-table-view-cell">
-			                <a id="J-changeUserName">
-			                    <div class="mui-pull-right">asdasd</div>
-			                    <span>昵称</span>
-			                </a>
-			            </li>
-			            <li class="mui-table-view-cell">
-			                <a >
-			                    <div class="mui-pull-right">asdasd</div>
-			                    <span>账号</span>
-			                </a>
-			            </li>
-			            <li class="mui-table-view-cell">
-			                <a id="J-showCode">
-			                    <div class="code-user"></div>
-			                    <span>二维码</span>
-			                </a>
-			            </li>
-			         
-			    </ul>
-			    <div class="h15"></div>
-				<ul class="mui-table-view">
-			           
-			            <li class="mui-table-view-cell">
-			                <a  data-href="修改性别.html">
-			                    <div class="mui-pull-right">男</div>
-			                    <span>性别</span>
-			                </a>
-			            </li>
-			            <li class="mui-table-view-cell">
-			            	
-			                <a id="btnSelect">
-			                    <div id="selectResult" class="mui-pull-right">江西</div>
-			                    <span>地区</span>
-			                </a>
-			            </li>
-			            <li class="mui-table-view-cell">
-			                <a >
-			                    <div class="mui-pull-right">张三</div>
-			                    <span>真实姓名</span>
-			                </a>
-			            </li>
-			          <li class="mui-table-view-cell">
-			                <a >
-			                    <div class="mui-pull-right">18888888888</div>
-			                    <span>手机号</span>
-			                </a>
-			            </li>
-			            <li class="mui-table-view-cell">
-			                <a >
-			                    <div class="mui-pull-right">未绑定</div>
-			                    <span>微信</span>
-			                </a>
-			            </li>
-			             <li class="mui-table-view-cell">
-			                <a >
-			                    <div class="mui-pull-right">已绑定</div>
-			                    <span>QQ</span>
-			                </a>
-			            </li>
-			    </ul>
-			
+				<li class="mui-table-view-cell">
+					<a data-href="选择头像.html">
+						<div class="avator-user" style="background-image: url(img/head-user2.png);"></div>
+						<span>头像</span>
+					</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a id="J-changeUserName">
+						<div class="mui-pull-right" id="nickName">未知</div>
+						<span>昵称</span>
+					</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a>
+						<div class="mui-pull-right" id="userAccount">未知</div>
+						<span>账号</span>
+					</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a id="J-showCode">
+						<div class="code-user"></div>
+						<span>二维码</span>
+					</a>
+				</li>
+
+			</ul>
+			<div class="h15"></div>
+			<ul class="mui-table-view">
+
+				<li class="mui-table-view-cell">
+					<a data-href="modify_sex.html">
+						<div class="mui-pull-right" id="sex">未知</div>
+						<span>性别</span>
+					</a>
+				</li>
+				<li class="mui-table-view-cell">
+
+					<a id="btnSelect">
+						<div id="selectResult" class="mui-pull-right">未知</div>
+						<span>地区</span>
+					</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a>
+						<div class="mui-pull-right" id="realName">未知</div>
+						<span>真实姓名</span>
+					</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a>
+						<div class="mui-pull-right" id="mobilePhone">未知</div>
+						<span>手机号</span>
+					</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a>
+						<div class="mui-pull-right" id="wechat">未绑定</div>
+						<span>微信</span>
+					</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a>
+						<div class="mui-pull-right" id="qq">未绑定</div>
+						<span>QQ</span>
+					</a>
+				</li>
+			</ul>
+
 		</div>
-		
-		
-		
+
 		<script type="text/javascript">
-//			修改昵称
+			//			修改昵称
 			document.getElementById("J-changeUserName").addEventListener('tap', function(e) {
 				e.detail.gesture.preventDefault();
 				var btnArray = ['确定', '取消'];
-				mui.prompt('请输入新的昵称：', '请输入新的昵称', '友情提示', btnArray, function(e) {
-					if (e.index == 0) {
-						mui.toast("昵称已修改为："+e.value)
+				mui.prompt(' ', '请输入新的昵称', '修改昵称', btnArray, function(e) {
+					if(e.index == 0) {
+
+						mui.toast("昵称已修改为：" + e.value)
 					} else {
 						mui.toast("已取消")
 					}
-				})
+				}), 'div'
 			});
-//			显示二维码
-			mui(document).on('tap','#J-showCode',function(){
-			   
-			    layer.open({
-			    content: '<img src="img/timg.jpg" width="200" height="200"/>'
-			    ,btn: ['扫码二维码','保存到手机']
-			    ,yes: function(index){
-			    	layer.open({
-					    content: '扫码二维码'
-					    ,skin: 'msg'
-					    ,time: 2 //2秒后自动关闭
-					});
-			       return false;
-			    }
-			    ,no: function(index){
-			    	layer.open({
-					    content: '保存到手机'
-					    ,skin: 'msg'
-					    ,time: 2 //2秒后自动关闭
-					 });
-			      return false;
-			    }
-			  });
-			   
-			   
+			//			显示二维码
+			mui(document).on('tap', '#J-showCode', function() {
+
+				layer.open({
+					content: '<img src="img/timg.jpg" width="200" height="200"/>',
+					btn: ['扫码二维码', '保存到手机'],
+					yes: function(index) {
+						layer.open({
+							content: '扫码二维码',
+							skin: 'msg',
+							time: 2 //2秒后自动关闭
+						});
+						return false;
+					},
+					no: function(index) {
+						layer.open({
+							content: '保存到手机',
+							skin: 'msg',
+							time: 2 //2秒后自动关闭
+						});
+						return false;
+					}
+				});
+
 			})
-			
 		</script>
-		
+
 		<!--地区-->
 		<script src="js/select/mui.picker.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="js/select/city.data-3.js" type="text/javascript" charset="utf-8"></script>
-		<link rel="stylesheet" type="text/css" href="js/select/mui.picker.min.css"/>
+		<link rel="stylesheet" type="text/css" href="js/select/mui.picker.min.css" />
 		<script type="text/javascript">
 			(function($$, doc) {
 				$$.init();
 				$$.ready(function() {
-					
-					
+
 					var cityPicker3 = new $$.PopPicker({
 						layer: 3
 					});
@@ -199,15 +237,12 @@
 							//return false;
 						});
 					}, false);
-					
-					
-					
+
 				});
 			})(mui, document);
 		</script>
+
 		
-		
-		<script src="js/config.js" type="text/javascript" charset="utf-8"></script>
 	</body>
 
 </html>
